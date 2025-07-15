@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What time is it?</title>
+  <style>
+    body {
+      cursor: url('https://cur.cursors-4u.net/symbols/sym-4/sym389.cur'), auto;
+      
+      
+      font-family: 'Trebuchet MS', sans-serif;
+      background: url('http://images-s.kinorium.com/movie/poster/415908/w1500_53694991.jpg') no-repeat center center fixed;
+      background-size: cover;
+      text-align: center;
+      color: #333;
+    }
+    .game-container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 3px solid #c57aff;
+      border-radius: 25px;
+      box-shadow: 0 0 25px rgba(168, 116, 255, 0.6);
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { box-shadow: 0 0 15px rgba(200, 150, 255, 0.4); }
+      to { box-shadow: 0 0 35px rgba(255, 200, 255, 0.8); }
+    }
+    h1 {
+      color: #7e2dd2;
+      text-shadow: 1px 1px 4px #fff;
+    }
+    img.alice {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin: 20px 0;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .clock {
+      font-size: 2.2em;
+      margin: 20px 0;
+      color: #c1126b;
+      text-shadow: 1px 1px 2px #fff;
+    }
+    .options button {
+      display: block;
+      width: 90%;
+      padding: 12px;
+      margin: 10px auto;
+      font-size: 1.2em;
+      background: linear-gradient(135deg, #e1c4ff, #ffd1e8);
+      border: 2px solid #b173f0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .options button:hover {
+      background: linear-gradient(135deg, #ffd1e8, #e1c4ff);
+      transform: scale(1.05);
+    }
+    .message {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 1.2em;
+      color: #5e1dab;
+      text-shadow: 1px 1px 2px #fff;
+    }
+    .alice-quote {
+      font-family: 'Neucha', cursive;
+      font-size: 1.5em;
+      color: #6a1b9a;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 10px 15px;
+      border-radius: 12px;
+      margin-top: 10px;
+      text-shadow: 1px 1px 2px #fff;
+    }
+  .options button:nth-child(1) { animation-delay: 0.1s; }
+  .options button:nth-child(2) { animation-delay: 0.2s; }
+  .options button:nth-child(3) { animation-delay: 0.3s; }
+  .options button:nth-child(4) { animation-delay: 0.4s; }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .progress-bar {
+    height: 12px;
+    width: 0%;
+    background: linear-gradient(90deg, #2ecc71, #27ae60);
+    border-radius: 6px;
+    transition: width 0.8s ease;
+}
+  .progress-wrapper {
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid #c57aff;
+    border-radius: 10px;
+    padding: 4px;
+    margin: 10px auto 20px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: inset 0 0 6px rgba(168, 116, 255, 0.4);
+    overflow: hidden;
+}
+
+  .progress-bar {
+    height: 12px;
+    width: 0%;
+    background: linear-gradient(90deg, #2ecc71, #27ae60);
+    border-radius: 6px;
+    transition: width 0.8s ease;
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Neucha&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="startScreen" style="position: fixed; inset: 0; background: url('https://i0.wp.com/i.etsystatic.com/29318579/r/il/da0e12/4238277517/il_fullxfull.4238277517_89d7.jpg') no-repeat center center; background-size: cover; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; font-family: 'Neucha', cursive; text-align: center; height: 100vh;">
+  <div style="background: rgba(0, 0, 0, 0.75); padding: 20px; border-radius: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: auto;"><h1 style="font-size: 2.8em; color: #fff; text-shadow: 2px 2px 6px #000, 0 0 10px #c57aff; margin-bottom: 10px;">Welcome to Mirrorland!</h1>
+  <p style="font-size: 1.4em; color: #fff; text-shadow: 1px 1px 3px #000; margin: 0;">Help Alice escape by telling the right time!</p></div>
+  <button onclick="startGame()" style="padding: 10px 20px; font-size: 1.2em; border: none; background: #c57aff; color: white; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">Start</button>
+</div>
+  
+  <div class="progress-wrapper">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div class="game-container fade show">
+    <h1>Help Alice Escape!</h1>
+    <img class="alice" src="https://cdn.culture.ru/images/52e81af8-8122-53b0-b4ab-e57ca0c11a41" alt="Alice">
+    <p class="alice-quote"><em>Alice: &quot;What time is it? I need to get out of the Mirror World!&quot;</em></p>
+    <canvas id="clockCanvas" width="200" height="200" style="margin: 20px auto; display: block;"></canvas>
+    <div class="options" id="options"></div>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+  const timeData = [
+    { time: '12:30', answer: "It's half past twelve" },
+    { time: '3:00', answer: "It's three o'clock" },
+    { time: '6:15', answer: "It's quarter past six" },
+    { time: '9:45', answer: "It's quarter to ten" },
+    { time: '1:20', answer: "It's twenty past one" },
+    { time: '7:05', answer: "It's five past seven" },
+    { time: '4:40', answer: "It's twenty to five" },
+    { time: '11:50', answer: "It's ten to twelve" }
+  ];
+
+  const clockCanvas = document.getElementById('clockCanvas');
+  const ctx = clockCanvas.getContext('2d');
+  const optionsEl = document.getElementById('options');
+  const messageEl = document.getElementById('message');
+
+  let current = 0;
+
+  function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+  }
+
+  function drawClock(timeStr) {
+    const [hoursStr, minutesStr] = timeStr.split(':');
+    const hours = parseInt(hoursStr) % 12;
+    const minutes = parseInt(minutesStr);
+    const radius = clockCanvas.width / 2;
+    ctx.clearRect(0, 0, clockCanvas.width, clockCanvas.height);
+    ctx.save();
+    ctx.translate(radius, radius);
+    ctx.beginPath();
+    ctx.arc(0, 0, radius * 0.9, 0, 2 * Math.PI);
+    ctx.fillStyle = '#fff8fc';
+    ctx.fill();
+    ctx.strokeStyle = '#9b59b6';
+    ctx.lineWidth = 4;
+    ctx.stroke();
+    ctx.font = '16px Trebuchet MS';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    for (let num = 1; num <= 12; num++) {
+      const ang = num * Math.PI / 6;
+      ctx.rotate(ang);
+      ctx.translate(0, -radius * 0.75);
+      ctx.rotate(-ang);
+      ctx.fillStyle = '#5e1dab';
+      ctx.fillText(num.toString(), 0, 0);
+      ctx.rotate(ang);
+      ctx.translate(0, radius * 0.75);
+      ctx.rotate(-ang);
+    }
+
+    let hour = hours + minutes / 60;
+    hour = hour * Math.PI / 6;
+    ctx.beginPath();
+    ctx.lineWidth = 6;
+    ctx.strokeStyle = '#8e44ad';
+    ctx.moveTo(0, 0);
+    ctx.rotate(hour);
+    ctx.lineTo(0, -radius * 0.5);
+    ctx.stroke();
+    ctx.rotate(-hour);
+
+    const minute = minutes * Math.PI / 30;
+    ctx.beginPath();
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = '#e84393';
+    ctx.moveTo(0, 0);
+    ctx.rotate(minute);
+    ctx.lineTo(0, -radius * 0.7);
+    ctx.stroke();
+    ctx.rotate(-minute);
+
+    ctx.restore();
+  }
+
+  function loadQuestion() {
+    const progressBar = document.getElementById('progressBar');
+    progressBar.style.width = ((current) / timeData.length * 100) + '%';
+    const container = document.querySelector('.game-container');
+    container.classList.remove('fade');
+    void container.offsetWidth;
+    container.classList.add('fade');
+
+    messageEl.textContent = '';
+    const item = timeData[current];
+    drawClock(item.time);
+    const choices = [item.answer];
+    while (choices.length < 4) {
+      const rand = timeData[Math.floor(Math.random() * timeData.length)].answer;
+      if (!choices.includes(rand)) choices.push(rand);
+    }
+    const shuffled = shuffle(choices);
+    optionsEl.innerHTML = '';
+    shuffled.forEach(option => {
+      const btn = document.createElement('button');
+      btn.textContent = option;
+      btn.onclick = () => checkAnswer(option);
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function checkAnswer(selected) {
+  const correct = timeData[current].answer;
+  if (selected === correct) {
+    const correctQuotes = [
+      "That’s right! Thank you!",
+      "Brilliant! You’re clever!",
+      "Oh, you really know your time!",
+      "Tick-tock, perfect!",
+      "Wonderful! Let’s keep going!"
+    ];
+    const randomQuote = correctQuotes[Math.floor(Math.random() * correctQuotes.length)];
+    messageEl.textContent = `✨ Alice: “${randomQuote}”`;
+    current++;
+    if (current < timeData.length) {
+      setTimeout(loadQuestion, 1500);
+    } else {
+      messageEl.textContent = '🎉 Alice: “You did it! I’m free — thanks to you!”';
+      document.getElementById('progressBar').style.width = '100%';
+      optionsEl.innerHTML = '';
+    }
+  } else {
+    messageEl.textContent = '😕 Alice: “Hmm… That doesn’t seem right.”';
+  }
+}
+// loadQuestion(); (disabled on load)
+;
+  
+  
+  function startGame() {
+    document.getElementById('startScreen').style.display = 'none';
+    loadQuestion();
+  }
+</script>
+
+  
+  
+  
+  
+
+
+</body>
+</html>
